@@ -1,4 +1,6 @@
+using Demo.BusinessLogic.Services;
 using Demo.DataAccess.Data.Context;
+using Demo.DataAccess.Repositories.Class;
 using Microsoft.EntityFrameworkCore;
 
 namespace Demo.presntation
@@ -19,6 +21,10 @@ namespace Demo.presntation
                 //or use
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+            builder.Services.AddScoped<DepartmentRepository>();
+
 
             var app = builder.Build();
 

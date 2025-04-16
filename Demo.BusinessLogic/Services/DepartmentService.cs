@@ -1,6 +1,6 @@
 ﻿using Demo.BusinessLogic.DataTransferObject;
 using Demo.BusinessLogic.Factories;
-using Demo.DataAccess.Repositories;
+using Demo.DataAccess.Repositories.Class;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Demo.BusinessLogic.Services
 {
-    internal class DepartmentService(DepartmentRepository _departmentRepository) : IDepartmentService
+    public class DepartmentService(DepartmentRepository _departmentRepository) : IDepartmentService
     //by using Primary constructor
     {
 
@@ -42,6 +42,7 @@ namespace Demo.BusinessLogic.Services
 
         public int AddDepartment(CreateDepartmentDto departmentDto)
         {
+           
             var department = departmentDto.toEntity();
             return _departmentRepository.Add(department);
 

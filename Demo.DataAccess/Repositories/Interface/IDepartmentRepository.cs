@@ -1,5 +1,4 @@
-﻿
-namespace Demo.DataAccess.Repositories
+﻿namespace Demo.DataAccess.Repositories.Interface
 {
     public interface IDepartmentRepository
     {

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Demo.DataAccess.model
+namespace Demo.DataAccess.model.shared
 {
-   public class BaseEntity
+    public class BaseEntity
     {
         public int Id { get; set; } //PK
         public int CreatedBy { get; set; } //User Id

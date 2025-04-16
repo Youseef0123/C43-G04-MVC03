@@ -1,4 +1,5 @@
 ﻿using Demo.DataAccess.Data.Configurations;
+using Demo.DataAccess.model.EmployeeModel;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace Demo.DataAccess.Data.Context
 
         // تعريف DbSet للـ Departments
         public DbSet<Department> Departments { get; set; }
+        public DbSet<Employee> employees { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

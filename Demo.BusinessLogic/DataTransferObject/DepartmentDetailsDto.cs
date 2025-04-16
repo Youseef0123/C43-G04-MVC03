@@ -18,9 +18,9 @@ namespace Demo.BusinessLogic.DataTransferObject
         public bool IsDeleted { get; set; }  //Soft delete
 
         public string Name { get; set; } = null!;
-        public string code { get; set; } = null!;
+        public string Code { get; set; } = null!;
         public string? Description { get; set; }
-
+        public DateOnly DateOfCreation { get; set; }
 
 
 

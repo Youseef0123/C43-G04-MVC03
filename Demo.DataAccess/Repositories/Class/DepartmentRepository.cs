@@ -5,8 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Demo.DataAccess.Repositories.Interface;
 
-namespace Demo.DataAccess.Repositories
+namespace Demo.DataAccess.Repositories.Class
 {
     public class DepartmentRepository(ApplicationDbContext dbContext) : IDepartmentRepository
     {

@@ -31,6 +31,8 @@ namespace Demo.BusinessLogic.Factories
             {
                 Id = d.Id,
                 Name = d.Name,
+                Code=d.code,
+                Description=d.Description,
                 CreatedOn = DateOnly.FromDateTime(d.CreatedOn ?? default)
             };
         }

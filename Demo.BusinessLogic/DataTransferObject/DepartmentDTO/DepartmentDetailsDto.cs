@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Demo.BusinessLogic.DataTransferObject
 {
-    public  class DepartmentDetailsDto
+    public class DepartmentDetailsDto
     {
 
         public int Id { get; set; } //PK

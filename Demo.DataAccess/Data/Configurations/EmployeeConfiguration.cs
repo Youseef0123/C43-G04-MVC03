@@ -28,7 +28,7 @@ namespace Demo.DataAccess.Data.Configurations
             // the first : to convert from Enum to string   to deal with in database 
             // the secound :to convert the string to enum again  to deal with in program 
 
-            builder.Property(E => E.EmployeeType)
+            builder.Property(E => E.EmType)
                              .HasConversion((emptype) => emptype.ToString(),
                                                (_emptyp) => (EmployeeType)Enum.Parse(typeof(EmployeeType), _emptyp));
         

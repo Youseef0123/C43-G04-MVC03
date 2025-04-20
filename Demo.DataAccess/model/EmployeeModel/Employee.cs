@@ -18,7 +18,7 @@ namespace Demo.DataAccess.model.EmployeeModel
         public string? PhoneNumber { get; set; }
         public DateTime HiringDate { get; set; }
         public Gendr EmpGender { get; set; }
-        public EmployeeType EmployeeType { get; set; }
+        public EmployeeType EmType { get; set; }
 
 
     }

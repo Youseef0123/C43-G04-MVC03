@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Demo.BusinessLogic.DataTransferObject
 {
-    public  class UpdateDto
+    public class UpdateDto
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;

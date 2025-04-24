@@ -1,9 +1,14 @@
-﻿using Demo.BusinessLogic.DataTransferObject.EmployeeDTO;
+﻿using AutoMapper;
+using Demo.BusinessLogic.DataTransferObject;
+using Demo.BusinessLogic.DataTransferObject.EmployeeDTO;
 using Demo.BusinessLogic.Services.Classes;
 using Demo.BusinessLogic.Services.Interfaces;
+using Demo.DataAccess.model;
 using Demo.DataAccess.model.EmployeeModel;
 using Demo.DataAccess.model.shared;
+using Demo.presntation.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Identity.Client;
 
@@ -14,16 +19,24 @@ namespace Demo.presntation.Controllers
         ILogger<EmployeesController> _logger,
         IWebHostEnvironment _environment) : Controller
     {
-        public IActionResult Index()
+
+
+        public IActionResult Index(string? EmployeeSearchName)
         {
-            var empolyee = employeeService.GetAllEmployees();
+            var empolyee = employeeService.GetAllEmployees(EmployeeSearchName);
 
             return View(empolyee);
         }
 
 
         [HttpGet]
-        public IActionResult Create() => View();
+        public IActionResult Create()
+        {
+
+            return View();
+
+        }
+
 
 
         [HttpPost]
@@ -33,6 +46,27 @@ namespace Demo.presntation.Controllers
             {
                 try
                 {
+                    //Mapping for EmployeeViewModel to CreatedEmployeeDTO     why??!!     to can make the partial view we must created model common 
+                    //for the all parts (Edit , create ) so we gone make the EmployeeViewModel to be the model in partial view 
+                    //and now we mapping it for CreatedEmployeeDTO to prevent the conflict that may be accoure in future 
+
+                    //var createdEmployeeDto = new CreatedEmployeeDto()
+                    //{
+                    //    Name = employeeViewModel.Name,
+                    //    Age = employeeViewModel.Age,
+                    //    Address = employeeViewModel.Address,
+                    //    Email = employeeViewModel.Email,
+                    //    Gender = employeeViewModel.Gender,
+                    //    IsActive = employeeViewModel.IsActive,
+                    //    EmployeeType = employeeViewModel.EmployeeType,
+                    //    HiringDate = employeeViewModel.HiringDate,
+                    //    PhoneNumber= employeeViewModel.PhoneNumber,
+                    //    Salary= employeeViewModel.Salary,
+
+                    //    departmentId=employeeViewModel.departmentId 
+                         
+                    //};
+
                     var employee= employeeService.createEmployee(createdEmployeeDto);
                     if (employee > 0)
                     {
@@ -62,7 +96,7 @@ namespace Demo.presntation.Controllers
                 }
             }
             return View(createdEmployeeDto);
-
+ 
         }
 
 
@@ -86,9 +120,8 @@ namespace Demo.presntation.Controllers
             var employee=employeeService.GetEmployeeById(Id.Value);
             if (employee is null) return NotFound();
 
-            var employeeDTO = new UpdateEmploteeDTO
+            var updateDto = new UpdateEmploteeDTO()
             {
-                Id = employee.Id,
                 Name = employee.Name,
                 Salary = employee.Salary,
                 Address = employee.Addrees,
@@ -96,24 +129,42 @@ namespace Demo.presntation.Controllers
                 Email = employee.Email,
                 PhoneNumber = employee.PhoneNumber,
                 IsActive = employee.IsActive,
-                HiringDate =employee.HireDate,
-                Gender  =Enum.Parse<Gendr>(employee.Gender),
-                EmployeeType=Enum.Parse<EmployeeType>(employee.EmployeeType)
-
+                HiringDate = employee.HireDate,
+                Gender = Enum.Parse<Gendr>(employee.Gender),
+                EmployeeType = Enum.Parse<EmployeeType>(employee.EmployeeType),
             };
 
-            return View(employeeDTO);   
+            return View(updateDto);   
         }
 
 
-        
+        [HttpPost]
         public IActionResult Edite( [FromRoute] int? id , UpdateEmploteeDTO updateEmploteeDTO)
         {
-            if (!id.HasValue || id != updateEmploteeDTO.Id) return BadRequest();
+            if (!id.HasValue) return BadRequest();
             if (!ModelState.IsValid) return View(updateEmploteeDTO);
 
             try
             {
+               //var updateEmploteeDTO = new UpdateEmploteeDTO()
+               //{
+               //    Id = id.Value,
+               //    Name = employeeViewModel.Name,
+               //    Salary = employeeViewModel.Salary,
+               //    Address= employeeViewModel.Address,
+               //    Age = employeeViewModel.Age,
+               //    Email = employeeViewModel.Email,
+               //    PhoneNumber = employeeViewModel.PhoneNumber,
+               //    IsActive = employeeViewModel.IsActive,
+               //    EmployeeType = employeeViewModel.EmployeeType,
+               //    Gender= employeeViewModel.Gender,
+               //    HiringDate  =   employeeViewModel.HiringDate,
+
+               //    departmentId=employeeViewModel.departmentId,
+
+               //};
+
+
                 var employeeEdit = employeeService.updateEmployee(updateEmploteeDTO);
 
                 if (employeeEdit > 0)

@@ -11,31 +11,41 @@ using System.Threading.Tasks;
 
 namespace Demo.BusinessLogic.Services.Classes
 {
-    public class EmployeeService(IEmployeeRepo _employeeRepo, IMapper _mapper) : IEmployeeService
+    public class EmployeeService(IUnitOfWork _unitOfWork, IMapper _mapper) : IEmployeeService
     {
         public int createEmployee(CreatedEmployeeDto createdEmployeeDto)
         {
            var employee = _mapper.Map<CreatedEmployeeDto,Employee>(createdEmployeeDto);
-           return _employeeRepo.Add(employee);
+            _unitOfWork.EmployeeRepo.Add(employee);
+            return _unitOfWork.SaveChangs();
 
         }
 
-        public bool deleteEmployee(int id)
+        public bool deleteEmployee(int id )
         {
-            var employee = _employeeRepo.GetById(id);
+            var employee = _unitOfWork.EmployeeRepo.GetById(id);
             if (employee is null) return false;
 
             employee.IsDeleted = true;
-            return _employeeRepo.Update(employee) > 0;
+             _unitOfWork.EmployeeRepo.Update(employee);
+
+            return _unitOfWork.SaveChangs() > 0 ? true:false;
         }
 
-        public IEnumerable<EmployeeDTo> GetAllEmployees(bool withTraking = false  )
+        public IEnumerable<EmployeeDTo> GetAllEmployees(string? EmployeeSearchName, bool withTraking = false  )
         {
-            var employee = _employeeRepo.GetAll(withTraking);
+            //Search Service logic 
+
+            IEnumerable<Employee> employees;
+            if(string.IsNullOrWhiteSpace(EmployeeSearchName))
+                employees= _unitOfWork.EmployeeRepo.GetAll();
+            else
+                employees= _unitOfWork.EmployeeRepo.GetAll(E => E.Name.ToLower().Contains(EmployeeSearchName.ToLower()));
+
             //Auto Mapper 
 
             /// Map<Src , Destination>      src is (from)    Destination is (to)
-            var employeeDto = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDTo>>(employee);
+            var employeeDto = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDTo>>(employees);
 
             //Manual Mapping 
             //var employeeDto = employee.Select(Emp =>new EmployeeDTo()
@@ -55,7 +65,7 @@ namespace Demo.BusinessLogic.Services.Classes
 
         EmployeeDetailsDTO IEmployeeService.GetEmployeeById(int id)
         {
-           var employee =_employeeRepo.GetById(id);
+           var employee = _unitOfWork.EmployeeRepo.GetById(id);
             if (employee == null) return null;
             else
                 return  _mapper.Map<EmployeeDetailsDTO>(employee);   ////we can write the Destination onl and he knwo the src from the object will send to
@@ -81,7 +91,11 @@ namespace Demo.BusinessLogic.Services.Classes
 
         int IEmployeeService.updateEmployee(UpdateEmploteeDTO updateEmploteeDTO)
         {
-            return _employeeRepo.Update(_mapper.Map<UpdateEmploteeDTO, Employee>(updateEmploteeDTO));
+
+            _unitOfWork.EmployeeRepo.Update(_mapper.Map<UpdateEmploteeDTO, Employee>(updateEmploteeDTO));
+
+            return _unitOfWork.SaveChangs();
+        
         }
     }
 }

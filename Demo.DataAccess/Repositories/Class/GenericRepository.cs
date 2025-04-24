@@ -5,6 +5,7 @@ using Demo.DataAccess.Repositories.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,22 +32,32 @@ namespace Demo.DataAccess.Repositories.Class
 
         public TEntity? GetById(int id) => _dbContext.Set<TEntity>().Find(id);
 
-        public int Update(TEntity entity)
+        public void Update(TEntity entity)
         {
             _dbContext.Set<TEntity>().Update(entity);
-            return _dbContext.SaveChanges();
+            _dbContext.SaveChanges();
         }
 
-        public int Remove(TEntity entity)
+        public void Remove(TEntity entity)
         {
             _dbContext.Set<TEntity>().Remove(entity);
-            return _dbContext.SaveChanges();
+             _dbContext.SaveChanges();
         }
 
-        public int Add(TEntity entity)
+        public void Add(TEntity entity)
         {
             _dbContext.Set<TEntity>().Add(entity);
-            return _dbContext.SaveChanges();
+             _dbContext.SaveChanges();
+        }
+
+
+        //for  the search Bar logic 
+        public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate)
+        {
+
+           return _dbContext.Set<TEntity>()
+                            .Where(predicate).ToList();
+
         }
     }
 

@@ -2,7 +2,7 @@
 @using Demo.DataAccess.model.shared
 @model UpdateEmploteeDTO
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edite";
 }
 
 <div class="row justify-content-center align-content-center mt-3">
@@ -70,14 +70,8 @@
             <label class="col-form-label" asp-for="IsActive"></label>
         </div>
         <div class="mt-4 m-auto">
-            <input class="btn btn-success" type="submit" asp-action="Edite" value="Save" />
+            <input class="btn btn-success" type="submit" value="Save" />
             <a asp-controller="Employee" asp-action="Index" class="btn btn-outline-dark">Back to list</a>
         </div>
     </form>
 </div>
-
-@section ValidationScript {
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation/dist/additional-methods.min.js"></script>
-}

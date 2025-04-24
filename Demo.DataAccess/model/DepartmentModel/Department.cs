@@ -1,4 +1,5 @@
-﻿using Demo.DataAccess.model.shared;
+﻿using Demo.DataAccess.model.EmployeeModel;
+using Demo.DataAccess.model.shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,9 @@ namespace Demo.DataAccess.model
     {
         public string Name { get; set; } = null!;
         public string code { get; set; } = null!;
-        public string? Description { get; set; } 
+        public string? Description { get; set; }
+
+        public  ICollection<Employee>  Employees { get; set; }   //Navigation Property
+
     }
 }

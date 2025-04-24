@@ -2,7 +2,38 @@
 @model IEnumerable<DepartmentDTO>
 @{
     ViewData["Title"] = "Index";
+
+    // casting for ViewData
+    // var Dep = ViewData["Message"] as DepartmentDTO;
+
 }
+
+
+
+@if (string.IsNullOrWhiteSpace(TempData["Message"] as string))
+{
+
+
+}
+else
+{
+    <div aria-live="polite" aria-atomic="true" class="toast-container position-fixed p-3" style="bottom: 25px; right:25px; z-index: 100;">
+        <div class="toast fade show " role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto text-success">Success!!</strong>
+                <small>Just now</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                @TempData["Message"]
+            </div>
+        </div>
+    </div>
+
+
+
+}
+
 
 <h1>All Departments</h1>
 <br />
@@ -48,14 +79,10 @@
                     <td>@department.Description</td>
                     <td>@department.DateofCreation</td>
 
-                    <td> 
-                        <a class="btn btn-success"  asp-action="Details" asp-route-Id="@department.DepId"> <i class="fas fa-eye"></i> Details</a>
-                    </td>
+                    @* the partial view  *@
+                    <partial name="_ButtonPartialView" model="department.DepId" />
 
-                    <td>
-                        <a class="btn btn-primary" asp-action="Edit" asp-route-Id="@department.DepId"> <i class="fas fa-edit"></i> Edit</a>
 
-                    </td>
 
                     <td>
                         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeleteModal-@department.DepId">

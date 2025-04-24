@@ -34,5 +34,7 @@ namespace Demo.BusinessLogic.DataTransferObject.EmployeeDTO
         public DateOnly HiringDate { get; set; }
         public Gendr Gender { get; set; }
         public EmployeeType EmployeeType { get; set; }
+
+        public int departmentId { get; set; }
     }
 }

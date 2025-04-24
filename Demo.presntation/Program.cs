@@ -42,6 +42,8 @@ namespace Demo.presntation
             builder.Services.AddScoped<IEmployeeRepo, EmployeeRepository>();
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             builder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfile()));
 
 

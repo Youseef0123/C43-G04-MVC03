@@ -21,5 +21,10 @@ namespace Demo.DataAccess.model.EmployeeModel
         public EmployeeType EmType { get; set; }
 
 
+
+        public int? DepartmentId { get; set; }   //the forign Key 
+
+        public Department? Department { get; set; } // Navigation Property 
+
     }
 }

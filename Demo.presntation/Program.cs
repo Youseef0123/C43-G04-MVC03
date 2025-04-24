@@ -1,4 +1,10 @@
+using Demo.BusinessLogic.Profiles;
+using Demo.BusinessLogic.Services.Classes;
+using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Data.Context;
+using Demo.DataAccess.Repositories.Class;
+using Demo.DataAccess.Repositories.Interface;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Demo.presntation
@@ -10,6 +16,15 @@ namespace Demo.presntation
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            #region Add Vlidation for forms to not accssess from any another requist like postman
+
+            builder.Services.AddControllersWithViews(option =>
+            {
+                option.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            });
+
+            #endregion
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             //builder.Services.AddScoped<ApplicationDbContext>(); //2.register to service  DI Container
@@ -19,6 +34,18 @@ namespace Demo.presntation
                 //or use
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+
+
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+
+            builder.Services.AddScoped<IEmployeeRepo, EmployeeRepository>();
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            builder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfile()));
+
 
             var app = builder.Build();
 

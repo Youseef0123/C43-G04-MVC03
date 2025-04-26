@@ -1,5 +1,6 @@
 ﻿using Demo.DataAccess.model.EmployeeModel;
 using Demo.DataAccess.model.shared;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -53,5 +54,7 @@ namespace Demo.BusinessLogic.DataTransferObject.EmployeeDTO
         public Gendr Gender { get; set; }
         public EmployeeType EmployeeType { get; set; }
         public int? departmentId { get; set; }
+
+        public IFormFile?  Image { get; set; }
     }
 }

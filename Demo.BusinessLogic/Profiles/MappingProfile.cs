@@ -22,13 +22,15 @@ namespace Demo.BusinessLogic.Profiles
             CreateMap<Employee, EmployeeDetailsDTO>()
                 .ForMember(dst => dst.EmployeeType, Options => Options.MapFrom(src => src.EmType))
                  .ForMember(dst => dst.Gender, Options => Options.MapFrom(src => src.EmpGender))
-                 .ForMember(dst=>dst.HireDate ,Options=>Options.MapFrom(src =>DateOnly.FromDateTime(src.HiringDate)));  
+                 .ForMember(dst => dst.HireDate, Options => Options.MapFrom(src => DateOnly.FromDateTime(src.HiringDate)))
+                 .ForMember(dst => dst.Image, Options => Options.MapFrom(src => src.ImageName));
+
 
 
 
 
             CreateMap<CreatedEmployeeDto, Employee>()
-                .ForMember(dst=>dst.HiringDate,Options=>Options.MapFrom(src=>src.HiringDate.ToDateTime(TimeOnly.MinValue)));
+                .ForMember(dst => dst.HiringDate, Options => Options.MapFrom(src => src.HiringDate.ToDateTime(TimeOnly.MinValue)));
 
 
 

@@ -83,9 +83,11 @@
             <input asp-for="LastModifiedOn" class="form-control" readonly />
         </div>
     </div>
+
     <div class="mt-4">
         <form method="post" asp-controller="Employees" asp-action="Delete" asp-route-id="@Model.Id">
-            <input type="submit" class="btn btn-danger" value="Delete" />
+            <input type="submit"  class="btn btn-danger" value="Delete" />
+
             <a asp-action="Index" class="btn btn-outline-dark">Back To list</a>
         </form>
     </div>

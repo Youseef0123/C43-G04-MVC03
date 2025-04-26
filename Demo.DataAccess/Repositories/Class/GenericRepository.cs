@@ -1,13 +1,11 @@
 ﻿using Demo.DataAccess.Data.Context;
-using Demo.DataAccess.model.EmployeeModel;
 using Demo.DataAccess.model.shared;
 using Demo.DataAccess.Repositories.Interface;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Demo.DataAccess.Repositories.Class
 {
@@ -23,42 +21,33 @@ namespace Demo.DataAccess.Repositories.Class
 
         public IEnumerable<TEntity> GetAll(bool withTracking = false)
         {
-            if (withTracking)
-            {
-                return _dbContext.Set<TEntity>().Where(e=>e.IsDeleted != true).ToList();
-            }
-            return _dbContext.Set<TEntity>().Where(e => e.IsDeleted != true).AsNoTracking().ToList();
+            var query = _dbContext.Set<TEntity>().Where(e => e.IsDeleted != true);
+            return withTracking ? query.ToList() : query.AsNoTracking().ToList();
         }
 
         public TEntity? GetById(int id) => _dbContext.Set<TEntity>().Find(id);
 
+        public void Add(TEntity entity)
+        {
+            _dbContext.Set<TEntity>().Add(entity);
+            // SaveChanges is handled by UnitOfWork
+        }
+
         public void Update(TEntity entity)
         {
             _dbContext.Set<TEntity>().Update(entity);
-            _dbContext.SaveChanges();
+            // SaveChanges is handled by UnitOfWork
         }
 
         public void Remove(TEntity entity)
         {
             _dbContext.Set<TEntity>().Remove(entity);
-             _dbContext.SaveChanges();
+            // SaveChanges is handled by UnitOfWork
         }
 
-        public void Add(TEntity entity)
-        {
-            _dbContext.Set<TEntity>().Add(entity);
-             _dbContext.SaveChanges();
-        }
-
-
-        //for  the search Bar logic 
         public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate)
         {
-
-           return _dbContext.Set<TEntity>()
-                            .Where(predicate).ToList();
-
+            return _dbContext.Set<TEntity>().Where(predicate).ToList();
         }
     }
-
 }

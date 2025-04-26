@@ -19,6 +19,7 @@ namespace Demo.DataAccess.model.EmployeeModel
         public DateTime HiringDate { get; set; }
         public Gendr EmpGender { get; set; }
         public EmployeeType EmType { get; set; }
+        public string? ImageName { get; set; }
 
 
 

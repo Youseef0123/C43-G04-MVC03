@@ -1,4 +1,4 @@
-using Demo.BusinessLogic.Profiles;
+﻿using Demo.BusinessLogic.Profiles;
 using Demo.BusinessLogic.Services.AttatchementService;
 using Demo.BusinessLogic.Services.Classes;
 using Demo.BusinessLogic.Services.Interfaces;
@@ -51,9 +51,10 @@ namespace Demo.presntation
 
             builder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfile()));
 
-
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders(); // 👈 هذا يحل المشكلة
+
 
             var app = builder.Build();
 
@@ -83,3 +84,6 @@ namespace Demo.presntation
         }
     }
 }
+
+
+
